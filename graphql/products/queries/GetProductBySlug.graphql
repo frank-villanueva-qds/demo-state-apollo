@@ -1,0 +1,9 @@
+query GetProductBySlug(
+  $slug: String
+  $channel: String
+  $locale: LanguageCodeEnum!
+) {
+  product(channel: $channel, slug: $slug) {
+    ...ProductDetailsFragment
+  }
+}

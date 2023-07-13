@@ -1,0 +1,14 @@
+query GetPages($filter: PageFilterInput) {
+  pages(filter: $filter, first: 5) {
+    edges {
+      node {
+        id
+        title
+        slug
+        attributes {
+          ...SelectedAttributeDetailsFragment
+        }
+      }
+    }
+  }
+}

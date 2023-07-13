@@ -1,0 +1,25 @@
+mutation CreateCheckout(
+  $email: String
+  $lines: [CheckoutLineInput!]!
+  $channel: String!
+  $locale: LanguageCodeEnum!
+) {
+  checkoutCreate(
+    input: {
+      channel: $channel
+      email: $email
+      lines: $lines
+      shippingAddress: { country: PE }
+      validationRules: { shippingAddress: { checkRequiredFields: false } }
+    }
+  ) {
+    checkout {
+      ...CheckoutDetailsFragment
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}

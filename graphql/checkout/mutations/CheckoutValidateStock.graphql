@@ -1,0 +1,23 @@
+mutation CheckoutValidateStock($id: ID!, $locale: LanguageCodeEnum!) {
+  checkoutValidateStock(id: $id) {
+    checkout {
+      ...CheckoutDetailsFragment
+    }
+    variants {
+      name
+      quantityAvailable
+      product {
+        name
+        thumbnail {
+          url
+          alt
+        }
+      }
+    }
+    errors {
+      field
+      code
+      message
+    }
+  }
+}

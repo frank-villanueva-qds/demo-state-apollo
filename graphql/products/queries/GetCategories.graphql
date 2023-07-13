@@ -1,0 +1,18 @@
+query GetCategories {
+  categories(first: 10, level: 1) {
+    edges {
+      node {
+        id
+        name
+        slug
+        level
+        metadata {
+          ...MetadataFragment
+        }
+        children(first: 20) {
+          ...ChildrenCategoriesFragment
+        }
+      }
+    }
+  }
+}

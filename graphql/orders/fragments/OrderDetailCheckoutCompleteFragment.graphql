@@ -1,0 +1,11 @@
+fragment OrderDetailCheckoutCompleteFragment on Order {
+  id
+  trackingClientId
+  shippingMethodName
+  original
+  paymentStatusDisplay
+  customerNote
+  canFinalize
+  userEmail
+  externalReference
+}

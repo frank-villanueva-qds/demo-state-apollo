@@ -1,0 +1,39 @@
+fragment ProductDetailsFragment on Product {
+  id
+  name
+  slug
+  description
+  seoDescription
+  seoTitle
+  isAvailableForPurchase
+  translation(languageCode: $locale) {
+    id
+    description
+    name
+  }
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  category {
+    ...CategoryBasicFragment
+  }
+  media {
+    ...ProductMediaFragment
+  }
+  thumbnail {
+    url
+    alt
+  }
+  category {
+    name
+  }
+  defaultVariant {
+    id
+    sku
+    name
+    quantityAvailable
+    pricing {
+      ...VariantPricingFragment
+    }
+  }
+}

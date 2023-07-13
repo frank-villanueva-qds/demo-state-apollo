@@ -1,0 +1,21 @@
+query User {
+  user: me {
+    id
+    email
+    firstName
+    lastName
+    documentNumber
+    documentType
+    phone
+    nationalNumber
+    addresses {
+      ...AddressDetailsFragment
+    }
+    defaultBillingAddress {
+      ...AddressDetailsFragment
+    }
+    defaultShippingAddress {
+      ...AddressDetailsFragment
+    }
+  }
+}

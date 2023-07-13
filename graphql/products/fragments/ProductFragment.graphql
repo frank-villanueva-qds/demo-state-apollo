@@ -1,0 +1,46 @@
+fragment ProductFragment on Product {
+  id
+  name
+  slug
+  description
+  isAvailableForPurchase
+  defaultVariant {
+    id
+    sku
+    name
+    quantityAvailable
+    pricing {
+      ...VariantPricingFragment
+    }
+  }
+  attributes {
+    ...SelectedAttributeDetailsFragment
+  }
+  thumbnail {
+    url
+  }
+  media {
+    url
+  }
+  category {
+    id
+    name
+    slug
+    level
+    parent {
+      id
+      name
+      slug
+      level
+      metadata {
+        ...MetadataFragment
+      }
+    }
+    metadata {
+      ...MetadataFragment
+    }
+  }
+  metadata {
+    ...MetadataFragment
+  }
+}

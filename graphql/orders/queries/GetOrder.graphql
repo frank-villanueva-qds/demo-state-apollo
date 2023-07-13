@@ -1,0 +1,65 @@
+query GetOrder($orderId: ID) {
+  order(id: $orderId) {
+    id
+    trackingClientId
+    number
+    original
+    origin
+    status
+    statusDisplay
+    total {
+      gross {
+        currency
+        amount
+      }
+    }
+    shippingAddress {
+      id
+      firstName
+      streetAddress1
+      city
+      country {
+        country
+      }
+      phone
+      cityArea
+      nationalNumber
+    }
+    lines {
+      ...OrderLineDetailsFragment
+    }
+    shippingMethod {
+      id
+      name
+      price {
+        currency
+        amount
+      }
+    }
+    shippingPrice {
+      gross {
+        currency
+        amount
+      }
+    }
+    totalCaptured {
+      currency
+      amount
+    }
+    subtotal {
+      currency
+      gross {
+        currency
+        amount
+      }
+    }
+    metadata {
+      ...MetadataFragment
+    }
+    payments {
+      creditCard {
+        brand
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+mutation SetShippingMethod(
+  $id: ID
+  $shippingMethodId: ID
+  $locale: LanguageCodeEnum!
+) {
+  checkoutDeliveryMethodUpdate(deliveryMethodId: $shippingMethodId, id: $id) {
+    checkout {
+      ...CheckoutDetailsFragment
+    }
+    errors {
+      field
+      message
+    }
+  }
+}

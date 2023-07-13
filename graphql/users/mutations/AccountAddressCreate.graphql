@@ -1,0 +1,27 @@
+mutation AccountAddressCreate($addressInput: AddressInput!) {
+  accountAddressCreate(input: $addressInput) {
+    user {
+      id
+      email
+      firstName
+      lastName
+      addresses {
+        ...AddressDetailsFragment
+      }
+      defaultBillingAddress {
+        ...AddressDetailsFragment
+      }
+      defaultShippingAddress {
+        ...AddressDetailsFragment
+      }
+    }
+    address {
+      ...AddressDetailsFragment
+    }
+    errors {
+      code
+      field
+      message
+    }
+  }
+}

@@ -1,0 +1,34 @@
+# Write your query or mutation here
+query GetProducts(
+  $first: Int
+  $last: Int
+  $channel: String
+  $after: String
+  $before: String
+  $filter: ProductFilterInput
+  $sortBy: ProductOrder
+) {
+  products(
+    first: $first
+    last: $last
+    channel: $channel
+    after: $after
+    before: $before
+    filter: $filter
+    sortBy: $sortBy
+  ) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ...ProductFragment
+      }
+    }
+  }
+}

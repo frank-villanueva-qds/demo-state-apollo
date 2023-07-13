@@ -1,0 +1,30 @@
+import ControlProduct from '../ControlProduct'
+import { FC } from 'react'
+import { ProductFragmentFragment } from '@/saleor/api'
+import { SaleorImage } from '@/shared/components/SaleorAsset'
+
+interface ICardProductProps {
+  product: ProductFragmentFragment
+}
+
+const CardProduct: FC<ICardProductProps> = ({ product }) => {
+  return (
+    <div className="flex flex-col gap-3 items-center border border-gray-200 rounded-md p-4 text-white">
+      <SaleorImage
+        src={product.thumbnail?.url ?? ''}
+        alt={product.name}
+        height={150}
+        width={150}
+        className="h-[150px] w-[150px] object-contain"
+      />
+      <h1 className="text-lg font-bold w-full text-left">{product.name}</h1>
+      <p className="text-sm w-full text-left">{product.slug}</p>
+      <ControlProduct
+        idProduct={product.defaultVariant?.id}
+        quantityAvailable={product.defaultVariant?.quantityAvailable ?? 0}
+      />
+    </div>
+  )
+}
+
+export default CardProduct

@@ -1,0 +1,11 @@
+query GetAddresses {
+  user: me {
+    id
+    email
+    firstName
+    addresses {
+      ...AddressDetailsFragment
+    }
+  }
+}
+

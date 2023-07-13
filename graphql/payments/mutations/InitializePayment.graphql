@@ -1,0 +1,22 @@
+mutation InitializePayment(
+  $gateway: String!
+  $channel: String
+  $payment: JSONString
+) {
+  paymentInitialize(
+    gateway: $gateway
+    channel: $channel
+    paymentData: $payment
+  ) {
+    initializedPayment {
+      data
+      gateway
+      name
+    }
+    errors {
+      field
+      code
+      message
+    }
+  }
+}

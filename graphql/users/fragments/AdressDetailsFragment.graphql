@@ -1,0 +1,22 @@
+fragment AddressDetailsFragment on Address {
+  id
+  firstName
+  lastName
+  phone
+  nationalNumber
+  documentType
+  documentNumber
+  streetAddress1
+  city
+  country {
+    code
+    country
+  }
+  latitude
+  longitude
+  streetAddress2
+  shippingInstructions
+  postalCode
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+}

@@ -1,0 +1,34 @@
+query GetCollectionBySlug($slug: String, $channel: String, $length: Int) {
+  collection(slug: $slug, channel: $channel) {
+    id
+    name
+    slug
+    products(first: $length) {
+      edges {
+        node {
+          id
+          name
+          slug
+          description
+          isAvailableForPurchase
+          thumbnail {
+            url
+            alt
+          }
+          attributes {
+            ...SelectedAttributeDetailsFragment
+          }
+          defaultVariant {
+            id
+            sku
+            name
+            quantityAvailable
+            pricing {
+              ...VariantPricingFragment
+            }
+          }
+        }
+      }
+    }
+  }
+}

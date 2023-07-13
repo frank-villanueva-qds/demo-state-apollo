@@ -1,0 +1,21 @@
+mutation CheckoutPaymentCreate(
+  $id: ID
+  $input: PaymentInput!
+  $locale: LanguageCodeEnum!
+) {
+  checkoutPaymentCreate(id: $id, input: $input) {
+    checkout {
+      ...CheckoutDetailsFragment
+    }
+    payment {
+      id
+      gateway
+    }
+    errors {
+      field
+      message
+      code
+      variants
+    }
+  }
+}

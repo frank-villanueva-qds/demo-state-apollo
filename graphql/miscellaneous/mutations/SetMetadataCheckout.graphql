@@ -1,0 +1,15 @@
+mutation SetMetadataCheckout($id: ID!, $metadataInput: [MetadataInput!]!) {
+  updateMetadata(id: $id, input: $metadataInput) {
+    item {
+      metadata {
+        key
+        value
+      }
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}

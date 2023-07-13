@@ -1,0 +1,16 @@
+mutation updateCheckout(
+  $id: ID!
+  $input: CheckoutUpdateInput!
+  $locale: LanguageCodeEnum!
+) {
+  checkoutUpdate(input: $input, id: $id) {
+    checkout {
+      ...CheckoutDetailsFragment
+    }
+    errors {
+      field
+      message
+      code
+    }
+  }
+}

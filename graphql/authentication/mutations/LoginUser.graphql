@@ -1,0 +1,23 @@
+mutation LoginUser(
+  $email: String!
+  $password: String!
+  $recaptchaToken: String
+) {
+  tokenCreate(
+    email: $email
+    password: $password
+    recaptchaToken: $recaptchaToken
+  ) {
+    user {
+      firstName
+    }
+    token
+    refreshToken
+    csrfToken
+    errors {
+      code
+      field
+      message
+    }
+  }
+}

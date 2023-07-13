@@ -1,0 +1,18 @@
+fragment OrderLineDetailsFragment on OrderLine {
+  id
+  totalPrice {
+    gross {
+      ...PriceFragment
+    }
+    net {
+      ...PriceFragment
+    }
+  }
+  quantity
+  productName
+  variantName
+  thumbnail {
+    url
+    alt
+  }
+}

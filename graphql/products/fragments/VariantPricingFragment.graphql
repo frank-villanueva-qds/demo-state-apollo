@@ -1,0 +1,21 @@
+fragment VariantPricingFragment on VariantPricingInfo {
+  onSale
+  discount {
+    gross {
+      ...PriceFragment
+    }
+    net {
+      ...PriceFragment
+    }
+  }
+  price {
+    gross {
+      ...PriceFragment
+    }
+  }
+  priceUndiscounted {
+    gross {
+      ...PriceFragment
+    }
+  }
+}

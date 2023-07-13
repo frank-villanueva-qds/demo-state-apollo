@@ -1,0 +1,64 @@
+.controlsWrapper {
+  @apply h-min w-full flex items-center justify-center;
+}
+
+.button {
+  @apply w-full h-8;
+  @apply flex justify-center items-center gap-3;
+  @apply border-green-500 border p-1 rounded-lg bg-black text-green-500;
+  @apply sm:p-2 sm:h-[40px];
+  @apply hover:bg-green-500 hover:text-black;
+  @apply disabled:border-green-300 disabled:text-green-300 disabled:pointer-events-none;
+}
+
+.label {
+  @apply text-xs font-medium text-inherit;
+  @apply sm:text-xs;
+}
+
+.controlButton {
+  @apply border-green-500 justify-between items-center;
+  @apply hover:!bg-black;
+  @apply !text-gray-700;
+}
+
+.circleButton {
+  @apply rounded-full;
+  @apply w-5 h-5;
+  @apply flex items-center justify-center;
+  @apply cursor-pointer;
+  @apply text-green-400 bg-[#E9EEFF];
+}
+
+.circleButton:disabled {
+  @apply cursor-not-allowed;
+  @apply !text-purple-300 bg-purple-200;
+}
+
+.controlsWrapper.cart {
+  @apply w-full md:w-[30%] h-[40px] justify-between md:justify-end gap-8;
+}
+
+.controlsWrapper.cart .controlButton {
+  @apply border-purple-400 w-[112px] h-[40px];
+}
+
+.controlsWrapper.cart .controlButton .circleButton {
+  @apply text-purple-400 bg-purple-200;
+}
+
+.tranparentButton {
+  @apply text-purple-400;
+  @apply p-2;
+  @apply bg-transparent;
+  @apply cursor-pointer;
+}
+
+.controlsWrapper.productDetail .button {
+  @apply bg-green-500 text-black;
+}
+
+.controlsWrapper.productDetail .controlButton {
+  @apply justify-center gap-7;
+  @apply bg-black text-white;
+}

@@ -1,0 +1,12 @@
+mutation AccountUnsetDefaultAddress($id: ID!, $type: AddressTypeEnum!) {
+  accountUnsetDefaultAddress(id: $id, type: $type) {
+    user {
+      addresses {
+        ...AddressDetailsFragment
+      }
+      defaultShippingAddress {
+        ...AddressDetailsFragment
+      }
+    }
+  }
+}

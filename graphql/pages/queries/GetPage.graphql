@@ -1,0 +1,12 @@
+query GetPage($idPage: ID, $slug: String) {
+  page(slug: $slug, id: $idPage) {
+    id
+    title
+    slug
+    content
+    contentJson
+    attributes {
+      ...SelectedAttributeDetailsFragment
+    }
+  }
+}

@@ -1,0 +1,26 @@
+fragment ChildrenCategoriesFragment on CategoryCountableConnection {
+  edges {
+    node {
+      id
+      name
+      slug
+      level
+      metadata {
+        ...MetadataFragment
+      }
+      children(first: 20) {
+        edges {
+          node {
+            id
+            name
+            slug
+            level
+            metadata {
+              ...MetadataFragment
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+mutation AccountAddressUpdate($id: ID!, $addressInput: AddressInput!) {
+  accountAddressUpdate(id: $id, input: $addressInput) {
+    user {
+      id
+      email
+      firstName
+      lastName
+      addresses {
+        ...AddressDetailsFragment
+      }
+      defaultBillingAddress {
+        ...AddressDetailsFragment
+      }
+      defaultShippingAddress {
+        ...AddressDetailsFragment
+      }
+    }
+    address {
+      ...AddressDetailsFragment
+    }
+    errors {
+      code
+      field
+      message
+    }
+  }
+}
