@@ -1,14 +1,14 @@
 import {
-  type CheckoutDetailsFragment,
   useCheckoutByTokenQuery,
+  type CheckoutDetailsFragment,
 } from '@/saleor/api'
 
 import { type ApolloError } from '@apollo/client'
 import { type ReactNode } from 'react'
-import createSafeContext from '@/src/shared/hooks/useSafeContext'
-import { DEFAULT_LOCALE } from '@/src/shared/config/language-code'
-import { useLocalStorage } from '@/src/shared/hooks/useLocalStorage'
-import { CHECKOUT_TOKEN } from '@/src/shared/config/constants'
+import createSafeContext from '@/shared/hooks/useSafeContext'
+import { DEFAULT_LOCALE } from '@/shared/config/language-code'
+import { useLocalStorage } from '@/shared/hooks/useLocalStorage'
+import { CHECKOUT_TOKEN } from '@/shared/config/constants'
 
 export interface CheckoutConsumerProps {
   checkoutToken: string
@@ -17,7 +17,6 @@ export interface CheckoutConsumerProps {
   checkout: CheckoutDetailsFragment | undefined | null
   checkoutError: ApolloError | undefined
   loading: boolean
-  // Mejorar después los tipos de refetchs
   refetch: () => Promise<any>
 }
 

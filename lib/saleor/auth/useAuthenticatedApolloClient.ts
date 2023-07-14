@@ -1,31 +1,61 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
-import fetch from 'cross-fetch';
-import { Fetch } from '@/lib/saleor/auth/types'
+import {
+  ApolloClient,
+  InMemoryCache,
+  type NormalizedCacheObject,
+  createHttpLink,
+} from '@apollo/client'
+import { type Fetch } from '@/lib/saleor/auth/types'
 import { typePolicies } from './typePolicies'
-import { useMemo } from 'react'
+import { useEffect, useState } from 'react'
+import { persistCache } from 'apollo3-cache-persist'
 
-// for static geenration of pages, we don't need auth there
-export const serverApolloClient = new ApolloClient({
-  link: createHttpLink({ uri: process.env.NEXT_PUBLIC_SALEOR_API_URL, fetch }),
-  cache: new InMemoryCache({ typePolicies }),
-  ssrMode: true,
-})
+export const useAuthenticatedApolloClient = (
+  fetchWithAuth: Fetch,
+  storage: Storage | undefined
+) => {
+  const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>()
 
-export const useAuthenticatedApolloClient = (fetchWithAuth: Fetch) => {
-  const httpLink = createHttpLink({
-    uri: process.env.NEXT_PUBLIC_SALEOR_API_URL,
-    fetch: fetchWithAuth,
-  })
+  useEffect(() => {
+    if (!storage) return
+    const cache = new InMemoryCache({ typePolicies })
 
-  const apolloClient = useMemo(
-    () =>
-      new ApolloClient({
+    const createApolloClient = (fetchWithAuth: Fetch) => {
+      const httpLink = createHttpLink({
+        uri: process.env.NEXT_PUBLIC_SALEOR_API_URL,
+        fetch: fetchWithAuth,
+      })
+
+      const client = new ApolloClient({
         link: httpLink,
-        cache: new InMemoryCache({ typePolicies }),
-        ssrMode:true
-      }),
-    []
-  )
+        cache,
+        ssrMode: false,
+      })
 
-  return { apolloClient, resetClient: () => apolloClient.resetStore() }
+      return client
+    }
+
+    const init = async () => {
+      console.log('Initializing cache persistence...')
+      await persistCache({
+        cache,
+        storage,
+      })
+      console.log('Cache persistence initialized.')
+    }
+
+    const initializeClient = async () => {
+      await init()
+      console.log('Initializing client...')
+      const client = createApolloClient(fetchWithAuth)
+      setClient(client)
+      console.log('client initialized.')
+    }
+
+    void initializeClient()
+  }, [fetchWithAuth, storage])
+
+  return {
+    apolloClient: client,
+    resetClient: async () => await client?.resetStore(),
+  }
 }

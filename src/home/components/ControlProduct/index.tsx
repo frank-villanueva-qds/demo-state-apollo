@@ -2,6 +2,7 @@ import { Icon, IconIds } from '@/shared/components/Icon'
 import { useEffect, useState } from 'react'
 
 import styles from './ControlProduct.module.css'
+import { useCheckout } from '@/lib/providers/CheckoutProvider'
 
 // import useAddProductService from '@/checkout/services/useAddProductService'
 // import { useCheckout } from '@/lib/providers/CheckoutProvider'
@@ -20,14 +21,13 @@ const ControlProduct: React.FC<IControlProductProps> = ({
   quantityAvailable,
   type = 'default',
 }) => {
-  // const { checkout } = useCheckout()
+  const { checkout } = useCheckout()
   // const { addProductService, isLoadingAdd } = useAddProductService()
   // const { decreaseProductService, isLoadingDecrease } =
   // useDecreaseProductService()
   // const { deleteProductService } = useDeleteProductService()
   const [showControls, setShowControls] = useState<boolean>(false)
-  // const products = checkout?.lines ?? []
-  const products: any[] = []
+  const products = checkout?.lines ?? []
   const product = products.find((p) => p.variant.id === idProduct)
   const productQuantity = product?.quantity ?? 0
 
@@ -55,14 +55,14 @@ const ControlProduct: React.FC<IControlProductProps> = ({
   }
 
   const handleClickDecrease = async (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
     // await decreaseProductService(idProduct, productQuantity)
   }
 
   const handleClickDelete = async (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
     // await deleteProductService(product?.id)

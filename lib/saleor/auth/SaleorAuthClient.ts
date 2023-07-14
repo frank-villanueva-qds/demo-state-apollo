@@ -6,14 +6,13 @@ import {
   TOKEN_REFRESH,
 } from './mutations'
 import {
-  CustomerDetachResponse,
-  CustomerDetachVariables,
-  Fetch,
-  PasswordResetResponse,
-  PasswordResetVariables,
-  TokenCreateResponse,
-  TokenCreateVariables,
-  TokenRefreshResponse,
+  type CustomerDetachVariables,
+  type Fetch,
+  type PasswordResetResponse,
+  type PasswordResetVariables,
+  type TokenCreateResponse,
+  type TokenCreateVariables,
+  type TokenRefreshResponse,
 } from './types'
 import { getRequestData, isExpiredToken } from './utils'
 
@@ -29,9 +28,9 @@ export interface SaleorAuthClientProps {
 export class SaleorAuthClient {
   private accessToken: string | null = null
   private tokenRefreshPromise: null | Promise<Response> = null
-  private onAuthRefresh?: (isAuthenticating: boolean) => void
-  private saleorApiUrl: string
-  private storageHandler: SaleorAuthStorageHandler | null
+  private readonly onAuthRefresh?: (isAuthenticating: boolean) => void
+  private readonly saleorApiUrl: string
+  private readonly storageHandler: SaleorAuthStorageHandler | null
   /**
    * Use ths method to clear event listeners from storageHandler
    *  @example
@@ -54,29 +53,32 @@ export class SaleorAuthClient {
     this.storageHandler?.cleanup()
   }
 
-  private runAuthorizedRequest: Fetch = (input, init) => {
+  private readonly runAuthorizedRequest: Fetch = async (input, init) => {
     // technically we run this only when token is there
     // but just to make typescript happy
     if (!this.accessToken) {
-      return fetch(input, init)
+      return await fetch(input, init)
     }
 
-    const headers = init?.headers || {}
+    const headers = init?.headers ?? {}
 
-    return fetch(input, {
+    return await fetch(input, {
       ...init,
       headers: { ...headers, Authorization: `Bearer ${this.accessToken}` },
     })
   }
 
-  private handleRequestWithTokenRefresh: Fetch = async (input, init) => {
+  private readonly handleRequestWithTokenRefresh: Fetch = async (
+    input,
+    init
+  ) => {
     const refreshToken = this.storageHandler?.getRefreshToken()
 
     invariant(refreshToken, 'Missing refresh token in token refresh handler')
 
     // the refresh already finished, proceed as normal
     if (this.accessToken) {
-      return this.fetchWithAuth(input, init)
+      return await this.fetchWithAuth(input, init)
     }
 
     this.onAuthRefresh?.(true)
@@ -97,13 +99,13 @@ export class SaleorAuthClient {
 
       if (errors.length || !token) {
         this.storageHandler?.setAuthState('signedOut')
-        return fetch(input, init)
+        return await fetch(input, init)
       }
 
       this.storageHandler?.setAuthState('signedIn')
       this.accessToken = token
       this.tokenRefreshPromise = null
-      return this.runAuthorizedRequest(input, init)
+      return await this.runAuthorizedRequest(input, init)
     }
 
     // this is the first failed request, initialize refresh
@@ -111,10 +113,10 @@ export class SaleorAuthClient {
       this.saleorApiUrl,
       getRequestData(TOKEN_REFRESH, { refreshToken })
     )
-    return this.fetchWithAuth(input, init)
+    return await this.fetchWithAuth(input, init)
   }
 
-  private handleSignIn = async <
+  private readonly handleSignIn = async <
     TOperation extends TokenCreateResponse | PasswordResetResponse
   >(
     response: Response
@@ -154,16 +156,16 @@ export class SaleorAuthClient {
 
     // access token is fine, add it to the request and proceed
     if (this.accessToken && !isExpiredToken(this.accessToken)) {
-      return this.runAuthorizedRequest(input, init)
+      return await this.runAuthorizedRequest(input, init)
     }
 
     // refresh token exists, try to authenticate if possible
     if (refreshToken) {
-      return this.handleRequestWithTokenRefresh(input, init)
+      return await this.handleRequestWithTokenRefresh(input, init)
     }
 
     // any regular mutation, no previous sign in, proceed
-    return fetch(input, init)
+    return await fetch(input, init)
   }
 
   resetPassword = async (variables: PasswordResetVariables) => {
@@ -172,7 +174,7 @@ export class SaleorAuthClient {
       getRequestData(PASSWORD_RESET, variables)
     )
 
-    return this.handleSignIn<PasswordResetResponse>(response)
+    return await this.handleSignIn<PasswordResetResponse>(response)
   }
 
   signIn = async (variables: TokenCreateVariables) => {
@@ -180,7 +182,7 @@ export class SaleorAuthClient {
       this.saleorApiUrl,
       getRequestData(TOKEN_CREATE, variables)
     )
-    return this.handleSignIn<TokenCreateResponse>(response)
+    return await this.handleSignIn<TokenCreateResponse>(response)
   }
 
   signOut = () => {
@@ -192,7 +194,7 @@ export class SaleorAuthClient {
     variables: CustomerDetachVariables
   ): Promise<void> => {
     try {
-      if (Boolean(variables.id)) {
+      if (variables.id) {
         // customer detach needs auth so run it and then remove all the tokens
         await this.runAuthorizedRequest(
           this.saleorApiUrl,

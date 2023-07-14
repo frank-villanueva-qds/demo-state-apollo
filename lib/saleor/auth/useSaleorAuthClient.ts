@@ -1,4 +1,7 @@
-import { SaleorAuthClient, SaleorAuthClientProps } from './SaleorAuthClient'
+import {
+  SaleorAuthClient,
+  type SaleorAuthClientProps,
+} from './SaleorAuthClient'
 import { useEffect, useMemo, useState } from 'react'
 
 export interface UseSaleorAuthClient {
@@ -35,6 +38,7 @@ export const useSaleorAuthClient = ({
     () => () => {
       saleorAuthClient.cleanup()
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 

@@ -18,10 +18,6 @@ fragment CheckoutLineDetailsFragment on CheckoutLine {
     product {
       id
       name
-      translation(languageCode: $locale) {
-        id
-        name
-      }
       slug
       thumbnail {
         ...ImageFragment

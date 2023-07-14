@@ -1,8 +1,8 @@
+import { isDarkModeVar } from './localStorage'
+// import { type TypedTypePolicies } from '@/saleor/api'
 import { relayStylePagination } from '@apollo/client/utilities'
 
-import { TypedTypePolicies } from '@/saleor/api'
-
-export const typePolicies: TypedTypePolicies = {
+export const typePolicies = {
   User: {
     fields: {
       orders: relayStylePagination(),
@@ -11,6 +11,11 @@ export const typePolicies: TypedTypePolicies = {
   Query: {
     fields: {
       products: relayStylePagination(['filter', 'sortBy']),
+      isDarkMode: {
+        read() {
+          return isDarkModeVar()
+        },
+      },
     },
   },
 }

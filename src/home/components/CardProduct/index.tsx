@@ -1,10 +1,10 @@
 import ControlProduct from '../ControlProduct'
-import { FC } from 'react'
-import { ProductFragmentFragment } from '@/saleor/api'
+import { type FC } from 'react'
+import { type ProductFragment } from '@/saleor/api'
 import { SaleorImage } from '@/shared/components/SaleorAsset'
 
 interface ICardProductProps {
-  product: ProductFragmentFragment
+  product: ProductFragment
 }
 
 const CardProduct: FC<ICardProductProps> = ({ product }) => {

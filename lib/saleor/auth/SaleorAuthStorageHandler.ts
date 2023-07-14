@@ -3,7 +3,7 @@ export const STORAGE_AUTH_EVENT_KEY = 'saleor_storage_auth_change'
 export const STORAGE_AUTH_STATE_KEY = 'saleor_auth_module_auth_state'
 
 export const REFRESH_TOKEN_KEY = 'saleor_auth_module_refresh_token'
-const TOKEN_KEY = 'saleor_auth_module_token'
+// const TOKEN_KEY = 'saleor_auth_module_token'
 
 export type AuthState = 'signedIn' | 'signedOut'
 
@@ -18,7 +18,7 @@ export class SaleorAuthStorageHandler {
     window.addEventListener('storage', this.handleStorageChange)
   }
 
-  private handleStorageChange = (event: StorageEvent) => {
+  private readonly handleStorageChange = (event: StorageEvent) => {
     const { oldValue, newValue, type, key } = event
 
     if (
@@ -45,7 +45,7 @@ export class SaleorAuthStorageHandler {
   }
 
   getAuthState = (): AuthState =>
-    (this.storage.getItem(STORAGE_AUTH_STATE_KEY) as AuthState | undefined) ||
+    (this.storage.getItem(STORAGE_AUTH_STATE_KEY) as AuthState | undefined) ??
     'signedOut'
 
   setAuthState = (authState: AuthState) => {
@@ -54,7 +54,7 @@ export class SaleorAuthStorageHandler {
   }
 
   /* refresh token */
-  getRefreshToken = () => this.storage.getItem(REFRESH_TOKEN_KEY) || null
+  getRefreshToken = () => this.storage.getItem(REFRESH_TOKEN_KEY) ?? null
 
   setRefreshToken = (token: string) => {
     this.storage.setItem(REFRESH_TOKEN_KEY, token)
