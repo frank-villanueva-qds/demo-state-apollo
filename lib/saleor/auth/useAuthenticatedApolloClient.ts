@@ -7,13 +7,17 @@ import {
 import { type Fetch } from '@/lib/saleor/auth/types'
 import { typePolicies } from './typePolicies'
 import { useEffect, useState } from 'react'
-import { persistCache } from 'apollo3-cache-persist'
+import { CachePersistor, LocalStorageWrapper } from 'apollo3-cache-persist'
+import addProductToCartResolver from '../resolvers/addProductToCart'
+import updateCartProductResolver from '../resolvers/updateCartProduct'
 
 export const useAuthenticatedApolloClient = (
   fetchWithAuth: Fetch,
   storage: Storage | undefined
 ) => {
   const [client, setClient] = useState<ApolloClient<NormalizedCacheObject>>()
+  const [persistor, setPersistor] =
+    useState<CachePersistor<NormalizedCacheObject>>()
 
   useEffect(() => {
     if (!storage) return
@@ -28,34 +32,44 @@ export const useAuthenticatedApolloClient = (
       const client = new ApolloClient({
         link: httpLink,
         cache,
-        ssrMode: false,
+        ssrMode: true,
       })
 
       return client
     }
 
     const init = async () => {
-      console.log('Initializing cache persistence...')
-      await persistCache({
+      const newPersistor = new CachePersistor({
         cache,
-        storage,
+        storage: new LocalStorageWrapper(window.localStorage),
+        key: 'apollo-cache-persist',
+        debug: true,
       })
-      console.log('Cache persistence initialized.')
+      await newPersistor.restore()
+      setPersistor(newPersistor)
     }
 
     const initializeClient = async () => {
       await init()
-      console.log('Initializing client...')
       const client = createApolloClient(fetchWithAuth)
       setClient(client)
-      console.log('client initialized.')
     }
 
     void initializeClient()
   }, [fetchWithAuth, storage])
 
+  useEffect(() => {
+    client?.addResolvers({
+      Mutation: {
+        addProductToCart: addProductToCartResolver,
+        updateCartProduct: updateCartProductResolver,
+      },
+    })
+  }, [client])
+
   return {
     apolloClient: client,
     resetClient: async () => await client?.resetStore(),
+    persistor,
   }
 }

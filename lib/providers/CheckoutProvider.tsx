@@ -38,6 +38,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
   } = useCheckoutByTokenQuery({
     variables: { id: checkoutToken, locale: DEFAULT_LOCALE },
     skip: !checkoutToken || typeof window === 'undefined',
+    ssr: true,
   })
 
   const resetCheckoutToken = () => {

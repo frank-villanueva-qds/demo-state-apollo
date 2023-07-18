@@ -5,9 +5,10 @@ import { useMemo } from 'react'
 const ListProducts = () => {
   const { data, loading } = useGetProductsQuery({
     variables: {
-      first: 20,
+      first: 4,
       channel: process.env.NEXT_PUBLIC_DEFAULT_CHANNEL,
     },
+    fetchPolicy: 'cache-and-network',
   })
 
   const listProducts = useMemo(() => {

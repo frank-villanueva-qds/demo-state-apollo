@@ -12,14 +12,13 @@
 }
 
 .label {
-  @apply text-xs font-medium text-inherit;
-  @apply sm:text-xs;
+  @apply text-base font-medium text-inherit;
 }
 
 .controlButton {
   @apply border-green-500 justify-between items-center;
   @apply hover:!bg-black;
-  @apply !text-gray-700;
+  @apply !text-green-500;
 }
 
 .circleButton {
@@ -27,7 +26,7 @@
   @apply w-5 h-5;
   @apply flex items-center justify-center;
   @apply cursor-pointer;
-  @apply text-green-400 bg-[#E9EEFF];
+  @apply text-green-400 bg-black;
 }
 
 .circleButton:disabled {

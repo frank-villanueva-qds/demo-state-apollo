@@ -1,11 +1,16 @@
+import {
+  type CartProducts,
+  CartProductsQuery,
+} from '@/home/models/CartProducts'
 import { Icon, IconIds } from '@/shared/components/Icon'
 import { useEffect, useState } from 'react'
 
 import styles from './ControlProduct.module.css'
-import { useCheckout } from '@/lib/providers/CheckoutProvider'
+// import { useCheckout } from '@/lib/providers/CheckoutProvider'
+import useCheckoutService from '@/home/hooks/useCheckoutService'
+import { useQuery } from '@apollo/client'
 
 // import useAddProductService from '@/checkout/services/useAddProductService'
-// import { useCheckout } from '@/lib/providers/CheckoutProvider'
 
 // import useDecreaseProductService from '@/checkout/services/useDecreaseProductService'
 // import useDeleteProductService from '@/checkout/services/useDeleteProductService'
@@ -21,14 +26,17 @@ const ControlProduct: React.FC<IControlProductProps> = ({
   quantityAvailable,
   type = 'default',
 }) => {
-  const { checkout } = useCheckout()
+  const { data: cartProductsData } = useQuery<CartProducts>(CartProductsQuery)
+  const cartProducts = cartProductsData?.cartProducts ?? []
+  // const { checkout } = useCheckout()
+  const { handleAddAction, handleUpdateAction } = useCheckoutService()
   // const { addProductService, isLoadingAdd } = useAddProductService()
   // const { decreaseProductService, isLoadingDecrease } =
   // useDecreaseProductService()
   // const { deleteProductService } = useDeleteProductService()
   const [showControls, setShowControls] = useState<boolean>(false)
-  const products = checkout?.lines ?? []
-  const product = products.find((p) => p.variant.id === idProduct)
+  // const products = checkout?.lines ?? []
+  const product = cartProducts.find((p) => p.id === idProduct)
   const productQuantity = product?.quantity ?? 0
 
   useEffect(() => {
@@ -38,6 +46,10 @@ const ControlProduct: React.FC<IControlProductProps> = ({
       setShowControls(false)
     }
   }, [productQuantity])
+
+  // const disabledButtonAdd = quantityAvailable === productQuantity
+  // const disabledButtonMinus = quantityAvailable === 0
+  // const disabledButtonPlus = quantityAvailable === productQuantity
 
   // const disabledButtonAdd =
   // quantityAvailable === productQuantity || isLoadingAdd
@@ -51,13 +63,23 @@ const ControlProduct: React.FC<IControlProductProps> = ({
 
   const handleClickAdd = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
+    handleAddAction({ idProduct, quantity: 1 })
     // await addProductService(idProduct, 1)
+  }
+
+  const handleClickIncrease = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault()
+    handleUpdateAction({ idProduct, quantity: productQuantity + 1 })
+    // await increaseProductService(idProduct, productQuantity)
   }
 
   const handleClickDecrease = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
+    handleUpdateAction({ idProduct, quantity: productQuantity - 1 })
     // await decreaseProductService(idProduct, productQuantity)
   }
 
@@ -89,16 +111,24 @@ const ControlProduct: React.FC<IControlProductProps> = ({
                 void handleClickDecrease(event)
               }}
             >
-              <Icon id={IconIds.minus} size={16} />
+              <Icon
+                id={IconIds.minus}
+                size={20}
+                className="text-green-500 bg-black"
+              />
             </button>
             <span className={styles.label}>{productQuantity}</span>
             <button
               className={`${styles.circleButton}`}
               onClick={(event) => {
-                void handleClickAdd(event)
+                void handleClickIncrease(event)
               }}
             >
-              <Icon id={IconIds.plus} size={14} />
+              <Icon
+                id={IconIds.plus}
+                size={20}
+                className="text-green-500 bg-black"
+              />
             </button>
           </div>
           {type === 'cart' && (
