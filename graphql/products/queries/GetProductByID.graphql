@@ -1,0 +1,5 @@
+query GetProductByID($id: ID, $channel: String, $locale: LanguageCodeEnum!) {
+  product(channel: $channel, id: $id) {
+    ...ProductDetailsFragment
+  }
+}

@@ -53,6 +53,9 @@ dependencies:
   react-lazy-load-image-component:
     specifier: 1.6.0
     version: 1.6.0(react-dom@18.2.0)(react@18.2.0)
+  react-modern-drawer:
+    specifier: ^1.2.0
+    version: 1.2.0(react@18.2.0)
   react-pipeline-component:
     specifier: 1.1.0
     version: 1.1.0
@@ -8031,6 +8034,15 @@ packages:
       lodash.throttle: 4.1.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-modern-drawer@1.2.0(react@18.2.0):
+    resolution: {integrity: sha512-GBQaeDNpnt6GFm3U9y/wzkZerP6R92CrgC9ge3/PHCm0F0LdUzt7rjFSwdd47Pdy6+FhXKR2rn7VxW3pl/+m9w==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>16.0.0'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-pipeline-component@1.1.0:

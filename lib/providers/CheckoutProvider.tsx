@@ -4,7 +4,7 @@ import {
 } from '@/saleor/api'
 
 import { type ApolloError } from '@apollo/client'
-import { type ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import createSafeContext from '@/shared/hooks/useSafeContext'
 import { DEFAULT_LOCALE } from '@/shared/config/language-code'
 import { useLocalStorage } from '@/shared/hooks/useLocalStorage'
@@ -40,6 +40,10 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
     skip: !checkoutToken || typeof window === 'undefined',
     ssr: true,
   })
+
+  useEffect(() => {
+    ///
+  }, [data?.checkout])
 
   const resetCheckoutToken = () => {
     setCheckoutToken('')

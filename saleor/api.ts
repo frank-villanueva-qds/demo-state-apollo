@@ -25152,6 +25152,15 @@ export type GetCollectionBySlugQueryVariables = Exact<{
 
 export type GetCollectionBySlugQuery = { __typename?: 'Query', collection?: { __typename?: 'Collection', id: string, name: string, slug: string, products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, isAvailableForPurchase?: boolean | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null, value?: string | null, boolean?: boolean | null, richText?: string | null, reference?: string | null, file?: { __typename?: 'File', url: string, contentType?: string | null } | null }> }>, defaultVariant?: { __typename?: 'ProductVariant', id: string, sku?: string | null, name: string, quantityAvailable?: number | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number }, net: { __typename?: 'Money', currency: string, amount: number } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null } }> } | null } | null };
 
+export type GetProductByIdQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  channel?: InputMaybe<Scalars['String']>;
+  locale: LanguageCodeEnum;
+}>;
+
+
+export type GetProductByIdQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, slug: string, description?: string | null, seoDescription?: string | null, seoTitle?: string | null, isAvailableForPurchase?: boolean | null, translation?: { __typename?: 'ProductTranslation', id: string, description?: string | null, name?: string | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, unit?: MeasurementUnitsEnum | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null, value?: string | null, boolean?: boolean | null, richText?: string | null, reference?: string | null, file?: { __typename?: 'File', url: string, contentType?: string | null } | null }> }>, category?: { __typename?: 'Category', name: string, id: string, slug: string, translation?: { __typename?: 'CategoryTranslation', id: string, name?: string | null } | null } | null, media?: Array<{ __typename?: 'ProductMedia', url: string, alt: string, type: ProductMediaType }> | null, thumbnail?: { __typename?: 'Image', url: string, alt?: string | null } | null, defaultVariant?: { __typename?: 'ProductVariant', id: string, sku?: string | null, name: string, quantityAvailable?: number | null, pricing?: { __typename?: 'VariantPricingInfo', onSale?: boolean | null, discount?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number }, net: { __typename?: 'Money', currency: string, amount: number } } | null, price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null, priceUndiscounted?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', currency: string, amount: number } } | null } | null } | null } | null };
+
 export type GetProductBySlugQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']>;
   channel?: InputMaybe<Scalars['String']>;
@@ -26735,6 +26744,43 @@ export function useGetCollectionBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type GetCollectionBySlugQueryHookResult = ReturnType<typeof useGetCollectionBySlugQuery>;
 export type GetCollectionBySlugLazyQueryHookResult = ReturnType<typeof useGetCollectionBySlugLazyQuery>;
 export type GetCollectionBySlugQueryResult = Apollo.QueryResult<GetCollectionBySlugQuery, GetCollectionBySlugQueryVariables>;
+export const GetProductByIdDocument = gql`
+    query GetProductByID($id: ID, $channel: String, $locale: LanguageCodeEnum!) {
+  product(channel: $channel, id: $id) {
+    ...ProductDetailsFragment
+  }
+}
+    ${ProductDetailsFragmentDoc}`;
+
+/**
+ * __useGetProductByIdQuery__
+ *
+ * To run a query within a React component, call `useGetProductByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      channel: // value for 'channel'
+ *      locale: // value for 'locale'
+ *   },
+ * });
+ */
+export function useGetProductByIdQuery(baseOptions: Apollo.QueryHookOptions<GetProductByIdQuery, GetProductByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductByIdQuery, GetProductByIdQueryVariables>(GetProductByIdDocument, options);
+      }
+export function useGetProductByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductByIdQuery, GetProductByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductByIdQuery, GetProductByIdQueryVariables>(GetProductByIdDocument, options);
+        }
+export type GetProductByIdQueryHookResult = ReturnType<typeof useGetProductByIdQuery>;
+export type GetProductByIdLazyQueryHookResult = ReturnType<typeof useGetProductByIdLazyQuery>;
+export type GetProductByIdQueryResult = Apollo.QueryResult<GetProductByIdQuery, GetProductByIdQueryVariables>;
 export const GetProductBySlugDocument = gql`
     query GetProductBySlug($slug: String, $channel: String, $locale: LanguageCodeEnum!) {
   product(channel: $channel, slug: $slug) {

@@ -7,10 +7,15 @@ import {
 
 import { useMutation } from '@apollo/client'
 
-type HandleAddAction = (params: { idProduct: string; quantity: number }) => void
+type HandleAddAction = (params: {
+  idProduct: string
+  idProductVariant: string
+  quantity: number
+}) => void
 
 type HandleUpdateAction = (params: {
   idProduct: string
+  idProductVariant: string
   quantity: number
 }) => void
 
@@ -24,19 +29,33 @@ const useCheckoutService = () => {
     CartProductsVariables
   >(UpdateCartProductMutation)
 
-  const handleAddAction: HandleAddAction = ({ idProduct, quantity }) => {
+  const handleAddAction: HandleAddAction = ({
+    idProduct,
+    idProductVariant,
+    quantity,
+  }) => {
+    console.log(
+      '🚀 ~ file: useCheckoutService.ts:41 ~ useCheckoutService ~ idProductVariant:',
+      idProductVariant
+    )
     void addProductToCartMutation({
       variables: {
         id: idProduct,
+        idVariant: idProductVariant,
         quantity,
       },
     })
   }
 
-  const handleUpdateAction: HandleUpdateAction = ({ idProduct, quantity }) => {
+  const handleUpdateAction: HandleUpdateAction = ({
+    idProduct,
+    idProductVariant,
+    quantity,
+  }) => {
     void updateCartProductMutation({
       variables: {
         id: idProduct,
+        idVariant: idProductVariant,
         quantity,
       },
     })

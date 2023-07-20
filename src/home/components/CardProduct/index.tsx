@@ -20,7 +20,8 @@ const CardProduct: FC<ICardProductProps> = ({ product }) => {
       <h1 className="text-lg font-bold w-full text-left">{product.name}</h1>
       <p className="text-sm w-full text-left">{product.slug}</p>
       <ControlProduct
-        idProduct={product.defaultVariant?.id}
+        idProduct={product.id}
+        idProductVariant={product.defaultVariant?.id ?? ''}
         quantityAvailable={product.defaultVariant?.quantityAvailable ?? 0}
       />
     </div>

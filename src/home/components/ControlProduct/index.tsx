@@ -16,13 +16,15 @@ import { useQuery } from '@apollo/client'
 // import useDeleteProductService from '@/checkout/services/useDeleteProductService'
 
 interface IControlProductProps {
-  idProduct?: string
+  idProduct: string
+  idProductVariant: string
   quantityAvailable: number
   type?: 'default' | 'cart' | 'productDetail'
 }
 
 const ControlProduct: React.FC<IControlProductProps> = ({
   idProduct,
+  idProductVariant,
   quantityAvailable,
   type = 'default',
 }) => {
@@ -36,7 +38,7 @@ const ControlProduct: React.FC<IControlProductProps> = ({
   // const { deleteProductService } = useDeleteProductService()
   const [showControls, setShowControls] = useState<boolean>(false)
   // const products = checkout?.lines ?? []
-  const product = cartProducts.find((p) => p.id === idProduct)
+  const product = cartProducts.find((p) => p.idVariant === idProductVariant)
   const productQuantity = product?.quantity ?? 0
 
   useEffect(() => {
@@ -63,7 +65,7 @@ const ControlProduct: React.FC<IControlProductProps> = ({
 
   const handleClickAdd = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    handleAddAction({ idProduct, quantity: 1 })
+    handleAddAction({ idProduct, idProductVariant, quantity: 1 })
     // await addProductService(idProduct, 1)
   }
 
@@ -71,7 +73,11 @@ const ControlProduct: React.FC<IControlProductProps> = ({
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
-    handleUpdateAction({ idProduct, quantity: productQuantity + 1 })
+    handleUpdateAction({
+      idProduct,
+      idProductVariant,
+      quantity: productQuantity + 1,
+    })
     // await increaseProductService(idProduct, productQuantity)
   }
 
@@ -79,7 +85,11 @@ const ControlProduct: React.FC<IControlProductProps> = ({
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
-    handleUpdateAction({ idProduct, quantity: productQuantity - 1 })
+    handleUpdateAction({
+      idProduct,
+      idProductVariant,
+      quantity: productQuantity - 1,
+    })
     // await decreaseProductService(idProduct, productQuantity)
   }
 

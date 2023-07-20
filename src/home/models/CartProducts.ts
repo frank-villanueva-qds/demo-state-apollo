@@ -1,6 +1,7 @@
 import gql from 'graphql-tag'
 export interface CartProduct {
   id: string
+  idVariant: string
   quantity: number
 }
 
@@ -16,18 +17,21 @@ export const CartProductsQuery = gql`
 `
 
 export const AddProductToCartMutation = gql`
-  mutation addProductToCart($id: ID!, $quantity: Int!) {
-    addProductToCart(id: $id, quantity: $quantity) @client
+  mutation addProductToCart($id: ID!, $idVariant: String, $quantity: Int!) {
+    addProductToCart(id: $id, idVariant: $idVariant, quantity: $quantity)
+      @client
   }
 `
 
 export const UpdateCartProductMutation = gql`
-  mutation updateCartProduct($id: ID!, $quantity: Int!) {
-    updateCartProduct(id: $id, quantity: $quantity) @client
+  mutation updateCartProduct($id: ID!, $idVariant: String, $quantity: Int!) {
+    updateCartProduct(id: $id, idVariant: $idVariant, quantity: $quantity)
+      @client
   }
 `
 
 export interface CartProductsVariables {
   id: string
+  idVariant: string
   quantity: number
 }

@@ -13,9 +13,10 @@ type AddProductToCartResolver = (
 
 const addProductToCartResolver: AddProductToCartResolver = (
   _,
-  { id, quantity },
+  { id, idVariant, quantity },
   { cache }
 ) => {
+  console.log('🚀 ~ file: addProductToCart.ts:19 ~ idVariant:', idVariant)
   const data = cache.readQuery<CartProducts>({
     query: CartProductsQuery,
   }) ?? { cartProducts: [] }
@@ -25,6 +26,7 @@ const addProductToCartResolver: AddProductToCartResolver = (
     {
       __typename: 'CartProduct',
       id,
+      idVariant,
       quantity,
     },
   ]

@@ -13,7 +13,7 @@ type UpdateCartProductResolver = (
 
 const updateCartProductResolver: UpdateCartProductResolver = (
   _,
-  { id, quantity },
+  { id, idVariant, quantity },
   { cache }
 ) => {
   const data = cache.readQuery<CartProducts>({
@@ -21,7 +21,9 @@ const updateCartProductResolver: UpdateCartProductResolver = (
   }) ?? { cartProducts: [] }
 
   if (quantity === 0) {
-    const newCartProducts = data.cartProducts.filter((item) => item.id !== id)
+    const newCartProducts = data.cartProducts.filter(
+      (item) => item.idVariant !== idVariant
+    )
     cache.writeQuery({
       query: CartProductsQuery,
       data: { cartProducts: newCartProducts },
@@ -30,7 +32,7 @@ const updateCartProductResolver: UpdateCartProductResolver = (
   }
 
   const newCartProducts = data.cartProducts.map((item) => {
-    if (item.id === id) {
+    if (item.idVariant === idVariant) {
       return {
         ...item,
         quantity,

@@ -10,6 +10,7 @@ import { ApolloProvider } from '@apollo/client'
 import { type ReactElement } from 'react'
 import Head from 'next/head'
 import { CheckoutProvider } from '@/lib/providers/CheckoutProvider'
+import 'react-modern-drawer/dist/index.css'
 
 export default function MyApp({
   Component,
